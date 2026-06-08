@@ -10,6 +10,7 @@
   To replace the hero image, add resources/hero.png.
   For color-scheme-specific images, add resources/hero.light.png and resources/hero.dark.png.
   JPG files with the same names are also supported.
+  When both a generic hero.png/hero.jpg and color-scheme-specific images exist, the light/dark images are drawn on top of the generic one in their matching mode.
   Then run ./scripts/readme_update.sh to embed existing hero images into resources/readme-hero.svg.
 -->
 <p align="center">
@@ -44,6 +45,15 @@ https://github.com/taeyoon0137/agents-md 의 AGENTS.md 기준으로,
 이 레포지토리 안에 독립적으로 이해되는 AGENTS.md 작업 지침과 CLAUDE.md 링크 구성을 만들어줘.
 ```
 
+이 저장소의 README를 다시 만들 때는 아래 명령을 실행합니다.
+
+```sh
+chmod +x ./scripts/readme_update.sh
+./scripts/readme_update.sh
+```
+
+위 명령은 `resources/README.preset.md`를 기준으로 `README.md`를 만들고, `resources/readme-hero.preset.svg`를 기준으로 `resources/readme-hero.svg`도 함께 생성합니다. `resources/hero.png`, `resources/hero.light.png`, `resources/hero.dark.png` 또는 같은 이름의 JPG 파일이 있으면 존재하는 이미지만 base64로 SVG 안에 내장합니다.
+
 <a id="역할"></a>
 
 ## 🧭 역할
@@ -76,5 +86,6 @@ agents-md
 │   └── readme_update.sh      # README 생성 스크립트
 ├── AGENTS.md                 # 에이전트 작업 지침과 프리셋 기준
 ├── CLAUDE.md                 # AGENTS.md 심볼릭 링크
+├── LICENSE                   # MIT 라이선스
 └── README.md                 # 자동 생성 결과물
 ```
