@@ -19,7 +19,7 @@
 
 - `git status --short`
 - 실제 파일 구조
-- README, docs, package manifest, lockfile, 설정 파일
+- README, docs, 언어별 패키지 매니페스트 및 lockfile (예: `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `Gemfile`), 설정 파일
 - 사용 언어와 프레임워크
 - 빌드, 테스트, 린트, 포맷 명령어
 - 배포나 운영 반영 방식
