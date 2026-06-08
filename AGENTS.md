@@ -72,6 +72,21 @@ ln -s AGENTS.md CLAUDE.md
 - 이미 `AGENTS.md`를 가리키는 심볼릭 링크라면 유지합니다.
 - 일반 파일이거나 다른 대상을 가리키는 링크라면 임의로 덮어쓰지 말고 사용자에게 확인합니다.
 
+#### Windows fallback
+
+Windows에서는 일반 사용자 권한으로 `ln -s`가 동작하지 않거나, Git for Windows가 symlink을 일반 파일로 체크아웃할 수 있습니다. 아래 순서로 fallback합니다.
+
+1. 개발자 모드가 켜져 있거나 관리자 권한이 있다면 PowerShell에서 symlink을 만듭니다.
+
+   ```powershell
+   New-Item -ItemType SymbolicLink -Path CLAUDE.md -Target AGENTS.md
+   ```
+
+2. Git for Windows를 사용한다면 저장소에 `core.symlinks=true`가 설정되어 있는지 `git config core.symlinks`로 확인합니다. `false`라면 `git config core.symlinks true` 후 다시 체크아웃합니다.
+3. symlink을 끝내 사용할 수 없는 환경이라면 `CLAUDE.md`를 `AGENTS.md`의 일반 파일 사본으로 둡니다. 이 경우 두 파일이 어긋나지 않도록 다음을 대상 저장소의 `AGENTS.md`와 contributing 문서에 함께 명시합니다.
+   - `AGENTS.md`를 수정하면 같은 변경을 `CLAUDE.md`에도 반영합니다.
+   - 커밋 전에 `diff AGENTS.md CLAUDE.md` 결과가 비어 있는지 확인합니다.
+
 작성 후 대상 저장소에서 아래를 확인합니다.
 
 ```sh
