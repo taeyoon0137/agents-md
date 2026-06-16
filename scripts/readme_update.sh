@@ -174,6 +174,7 @@ perl -0pe '
   s/\$\{repositoryUrl\}/$repository_url/g;
   s/\$\{badgeBlock\}/$badge_block/g;
   s|\.\./resources|./resources|g;
+  s|\.\./agents|./agents|g;
   s|\.\./docs|./docs|g;
   s|\.\./AGENTS\.md|./AGENTS.md|g;
   s|\.\./CLAUDE\.md|./CLAUDE.md|g;

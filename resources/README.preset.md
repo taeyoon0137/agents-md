@@ -21,68 +21,106 @@
 
 <!-- Title -->
 <h1 align="center">AGENTS.md Preset Guide</h1>
-<p align="center">일관된 AGENTS.md와 CLAUDE.md 링크 구성을 만들기 위한 템플릿 저장소입니다.</p>
+<p align="center">A template repository for creating target-specific AGENTS.md instructions, CLAUDE.md links, and localized external-reference guidance.</p>
 
 ${badgeBlock}
 
-- [🚀 시작하기](#시작하기)
-- [🧭 역할](#역할)
-- [🗂️ 레포지토리 구성](#레포지토리-구성)
+- [🚀 Getting Started](#getting-started)
+- [🧭 Role](#role)
+- [📚 Instruction Files](#instruction-files)
+- [🛠️ Application Flow](#application-flow)
+- [🔄 README Updates](#readme-updates)
+- [🗂️ Repository Structure](#repository-structure)
 
-<a id="시작하기"></a>
+<a id="getting-started"></a>
 
-## 🚀 시작하기
+## 🚀 Getting Started
 
-> 이 문서를 읽는 주체가 에이전트라면 [`AGENTS.md`](../AGENTS.md) 또는 [`CLAUDE.md`](../CLAUDE.md)를 먼저 읽습니다.
+> If you are an agent reading this document, read [`AGENTS.md`](../AGENTS.md) or [`CLAUDE.md`](../CLAUDE.md) first.
 
-AGENTS.md 생성 체계를 만들 대상 레포지토리에서 에이전트에게 아래처럼 요청합니다.
+When creating an `AGENTS.md` instruction set in a new target repository, ask the agent with a prompt like this.
 
 ```text
-https://github.com/taeyoon0137/agents-md 의 AGENTS.md 기준으로,
-이 레포지토리 안에 독립적으로 이해되는 AGENTS.md 작업 지침과 CLAUDE.md 링크 구성을 만들어줘.
+Open https://github.com/taeyoon0137/agents-md and follow its AGENTS.md authoring instructions for this repository.
 ```
 
-이 저장소의 README를 다시 만들 때는 아래 명령을 실행합니다.
+When updating an existing target `AGENTS.md`, request a conservative update that preserves the existing document language, structure, commands, and prohibitions.
+
+```text
+Open https://github.com/taeyoon0137/agents-md and follow its existing AGENTS.md update instructions for this repository.
+```
+
+<a id="role"></a>
+
+## 🧭 Role
+
+`agents-md` is an instruction repository for standardizing how `AGENTS.md` files are created and updated for personal projects.
+
+This repository does not provide a preset file to copy directly into a target repository. It guides agents to inspect the target repository's real structure, documents, commands, and existing instructions before writing an `AGENTS.md` that can be understood independently inside that target.
+
+In the current structure, the root [`AGENTS.md`](../AGENTS.md) is both the maintenance instruction file for this repository and the router for external target work. The actual external target creation and update rules are separated into localized reference files: [`agents/AGENTS.en.md`](../agents/AGENTS.en.md) and [`agents/AGENTS.kr.md`](../agents/AGENTS.kr.md).
+
+<a id="instruction-files"></a>
+
+## 📚 Instruction Files
+
+| File                                                                      | Role                                                                                                                              |
+| :------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------- |
+| [`AGENTS.md`](../AGENTS.md)                                               | The active maintenance instruction file for this repository and the router to localized reference files for external target work. |
+| [`agents/AGENTS.en.md`](../agents/AGENTS.en.md)                           | The external `AGENTS.md` creation and update reference for English targets or targets whose language cannot be confirmed.         |
+| [`agents/AGENTS.kr.md`](../agents/AGENTS.kr.md)                           | The external reference used when the user's preferred language, work environment, or main communication context is Korean.        |
+| [`CLAUDE.md`](../CLAUDE.md)                                               | A symbolic link to the root `AGENTS.md`.                                                                                          |
+| [`resources/README.preset.md`](../resources/README.preset.md)             | The source file for generated `README.md` output. README changes start here.                                                      |
+| [`resources/readme-hero.preset.svg`](../resources/readme-hero.preset.svg) | The source SVG for the generated README hero image.                                                                               |
+
+When introducing language routing to a new target, keep the root `AGENTS.md` as an English router and place detailed instructions in `agents/AGENTS.<language>.md`. If the target already has an established structure or language, preserve it unless the user explicitly asks for a full rewrite or language switch.
+
+<a id="application-flow"></a>
+
+## 🛠️ Application Flow
+
+When creating instructions for a target repository or document set, follow this flow.
+
+1. Inspect the target's `git status --short`, file structure, README, docs, contributing documents, package manifests, config files, and any existing `AGENTS.md` or `CLAUDE.md`.
+2. Choose the English or Korean reference instructions based on the confirmed user language and target document language.
+3. Write `AGENTS.md` with only the target's actual role, commands, verification criteria, source-of-truth relationships, and prohibitions.
+4. Do not leave text in the generated target `AGENTS.md` that requires continued reference to this repository.
+5. If `CLAUDE.md` is needed, create it as a symbolic link to `AGENTS.md` where possible. In environments where symlinks are difficult, such as Windows, use only a method confirmed to work in the target.
+6. Within the possible scope, run `git diff --check`, `git status --short`, and the verification commands confirmed in the target.
+
+<a id="readme-updates"></a>
+
+## 🔄 README Updates
+
+Run the following command to regenerate this repository's README.
 
 ```sh
 chmod +x ./scripts/readme_update.sh
 ./scripts/readme_update.sh
 ```
 
-위 명령은 `resources/README.preset.md`를 기준으로 `README.md`를 만들고, `resources/readme-hero.preset.svg`를 기준으로 `resources/readme-hero.svg`도 함께 생성합니다. `resources/hero.png`, `resources/hero.light.png`, `resources/hero.dark.png` 또는 같은 이름의 JPG 파일이 있으면 존재하는 이미지만 base64로 SVG 안에 내장합니다.
+This command creates `README.md` from `resources/README.preset.md` and also generates `resources/readme-hero.svg` from `resources/readme-hero.preset.svg`. If `resources/hero.png`, `resources/hero.light.png`, `resources/hero.dark.png`, or JPG files with the same names exist, only the existing images are embedded into the SVG as base64 data.
 
-<a id="역할"></a>
+In repositories with `package.json`, `scripts/readme_update.sh` uses Node.js first. If Node.js is unavailable, it falls back to `jq` to read the name, version, package manager, and repository URL. In this repository, where `package.json` does not exist, it uses the Git remote URL and the default badge set.
 
-## 🧭 역할
+<a id="repository-structure"></a>
 
-`agents-md`는 `AGENTS.md` 생성 방식을 표준화하기 위한 템플릿 레포지토리입니다.
-
-다른 에이전트가 대상 레포지토리 안에 독립적인 `AGENTS.md` 작업 지침과 `CLAUDE.md` 심볼릭 링크 구성을 이식할 수 있도록 템플릿을 제공합니다.
-
-목표는 단일 `AGENTS.md` 파일 작성이나 이 저장소에 대한 외부 참조 추가가 아니라, 대상 레포지토리 안에 그 레포지토리만으로 이해되는 작업 지침을 두는 것입니다.
-
-적용 결과는 대상 레포지토리만 clone해도 이해되고 실행되어야 합니다. `AGENTS.md`를 그대로 복사하거나, 생성된 지침이 이 템플릿 저장소를 계속 참조해야 동작하는 방식은 적용 완료로 보지 않습니다.
-
-| 영역        | 역할                                                       |
-| :---------- | :--------------------------------------------------------- |
-| `AGENTS.md` | 대상 레포에 이식할 에이전트 작업 원칙과 절차를 정의합니다. |
-| `CLAUDE.md` | `AGENTS.md`를 가리키는 심볼릭 링크입니다.                  |
-
-<a id="레포지토리-구성"></a>
-
-## 🗂️ 레포지토리 구성
+## 🗂️ Repository Structure
 
 ```plaintext
 agents-md
+├── agents/
+│   ├── AGENTS.en.md         # English external AGENTS.md creation and update reference
+│   └── AGENTS.kr.md         # Korean external AGENTS.md creation and update reference
 ├── resources/
-│   ├── README.preset.md      # README 생성 원본
-│   ├── hero.png              # README 기본 히어로 이미지 원본
-│   ├── readme-hero.preset.svg # README 히어로 SVG 원본
-│   └── readme-hero.svg       # README 히어로 SVG 생성 결과물
+│   ├── README.preset.md      # Source file for generated README output
+│   ├── hero.png              # Default source image for the README hero
+│   ├── readme-hero.preset.svg # Source SVG for the README hero
+│   └── readme-hero.svg       # Generated README hero SVG
 ├── scripts/
-│   └── readme_update.sh      # README 생성 스크립트
-├── AGENTS.md                 # 에이전트 작업 지침과 프리셋 기준
-├── CLAUDE.md                 # AGENTS.md 심볼릭 링크
-├── LICENSE                   # MIT 라이선스
-└── README.md                 # 자동 생성 결과물
+│   └── readme_update.sh      # README generation script
+├── AGENTS.md                 # Repository maintenance and external-reference routing instructions
+├── CLAUDE.md                 # Symbolic link to AGENTS.md
+├── LICENSE                   # MIT license
+└── README.md                 # Generated output
 ```
