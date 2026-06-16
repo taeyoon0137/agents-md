@@ -1,211 +1,184 @@
-# agents-md 작업 지침
+# agents-md root instructions
 
-이 문서는 목적별로 읽을 범위가 다릅니다. 먼저 현재 목적을 구분합니다.
+This root `AGENTS.md` is the active instruction file for maintaining the `agents-md` repository itself. It also routes tasks that create or update `AGENTS.md` files for other repositories or document sets to the localized reference instructions under `agents/`.
 
-## 먼저 읽기
+## Scope
 
-- 다른 저장소의 `AGENTS.md`를 만들거나 갱신하기 위해 이 파일을 열었다면 외부 참조 상황입니다. [공통 원칙](#공통-원칙)과 [외부 참조 지침](#외부-참조-지침)을 읽고 적용합니다.
-- `agents-md` 저장소 자체를 수정하려는 경우에는 내부 참조 상황입니다. [공통 원칙](#공통-원칙)과 [이 저장소 유지보수 지침](#이-저장소-유지보수-지침)을 읽습니다.
-- 외부 참조 시 이 저장소의 README 생성 방식, 커밋 규칙, 로컬 파일 구조, 유지보수 규칙을 대상 저장소의 일반 지침으로 가져가지 않습니다.
-- 사용자가 별도로 다른 지시를 내리면 최신 사용자 지시를 우선합니다.
+Use this file for work on the `agents-md` repository itself.
 
-## 공통 원칙
+Use localized reference files only when creating or updating an `AGENTS.md` file for another target.
 
-아래 원칙은 이 저장소를 직접 수정하는 작업과 다른 저장소의 `AGENTS.md`에 반영해야 할 내용 모두에 적용합니다. 외부 참조 시에는 대상 저장소의 `AGENTS.md`에도 같은 원칙이 들어가도록 작성합니다.
+- English external-reference instructions: `agents/AGENTS.en.md`
+- Korean external-reference instructions: `agents/AGENTS.kr.md`
 
-- 항상 한국어 존댓말로 응답합니다.
-- 결론을 먼저 말하고, 확인하지 못한 내용은 명확히 분리합니다.
-- 불필요한 칭찬, 감탄, 장식적 표현은 사용하지 않습니다.
-- 사용자가 커밋을 명시적으로 요청하지 않으면 커밋하지 않습니다.
-- secret, token, credential을 저장소에 기록하지 않습니다.
-- 요청과 직접 관련 없는 리팩터링을 하지 않습니다.
-- 확인하지 못한 명령어, 테스트, 배포를 성공한 것처럼 보고하지 않습니다.
-- 이미 수정된 파일은 사용자 또는 이전 작업의 변경으로 간주하고 임의로 되돌리지 않습니다.
-- 사용자가 명시적으로 요청하지 않은 내용을 커밋 메시지, 코드 주석, PR/이슈 본문, 문서, 설정 파일에 임의로 삽입하지 않습니다. 특히 다음은 사용자의 명시적 지시가 없으면 절대 추가하지 않습니다.
-  - `Co-Authored-By`, `Signed-off-by` 등 trailer
-  - 에이전트, 모델, 제공사 이름이나 이메일 (예: Claude, Anthropic, GPT, Copilot)
-  - "Generated with ...", "Made by AI" 등 생성 도구 표기
-  - 작업과 무관한 광고, 홍보, 외부 링크
-- 위 항목을 넣어야 할 합당한 이유가 있다고 판단되더라도, 먼저 사용자에게 묻고 승인을 받은 뒤에만 추가합니다.
+Localized files are for external target generation and update work. They are not the maintenance instructions for this repository.
 
-## 외부 참조 지침
+## Reference-use rule
 
-이 섹션은 다른 저장소의 `AGENTS.md`를 만들거나 갱신할 때만 사용합니다. 이 파일을 그대로 복사하지 말고, 대상 저장소를 조사한 뒤 실제 맥락에 맞는 `AGENTS.md`를 작성합니다.
+If the user or another instruction says to reference this document, that means to follow the rules in these instructions. It does not mean to copy this document's structure, section order, examples, file layout, or repository-specific maintenance rules into a target `AGENTS.md`.
 
-### 대상 저장소 확인
+When creating or updating a target `AGENTS.md`, inspect the target first and write instructions that fit the target's confirmed context.
 
-먼저 대상 저장소에서 아래를 확인합니다.
+## Language routing
 
-- `git status --short`
-- 실제 파일 구조
-- README, docs, 언어별 패키지 매니페스트 및 lockfile (예: `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `Gemfile`), 설정 파일
-- 사용 언어와 프레임워크
-- 빌드, 테스트, 린트, 포맷 명령어
-- 배포나 운영 반영 방식
-- 생성 파일과 source of truth의 관계
-- 기존 `AGENTS.md`, `CLAUDE.md` 존재 여부
-- 작업에 참고해야 할 별도 문서의 위치와 우선순위
+- Write this root `AGENTS.md` in English.
+- Keep the default external-reference language as English.
+- Use `agents/AGENTS.en.md` when the target language is English or cannot be confirmed.
+- Use `agents/AGENTS.kr.md` when the user's preferred language, work environment, or primary communication context is Korean.
+- Infer language only from confirmed evidence: user messages, existing README/docs/contributing files, existing `AGENTS.md` or `CLAUDE.md`, and the tone of commits, issues, or pull requests.
+- By default, infer the user's preferred language and respond in that language.
+- If the user explicitly specifies a response language or target document language, follow that instruction.
+- If an existing target `AGENTS.md` uses a different language from the inferred target language, preserve the existing document language and make only the minimal required changes unless the user explicitly asks for a full translation or language switch.
 
-### 대상 AGENTS.md 작성
+When introducing language routing to a target that does not already have it:
 
-대상 저장소의 `AGENTS.md`에는 먼저 [공통 원칙](#공통-원칙)을 그대로 반영하고, 그 위에 아래 외부 참조 전용 사항을 추가합니다.
+- Keep the target root `AGENTS.md` in English.
+- Use the target root `AGENTS.md` as a router and agent role description.
+- Put detailed target instructions under `agents/AGENTS.<language>.md`, such as `agents/AGENTS.en.md` or `agents/AGENTS.kr.md`.
+- Do not force this file layout onto an existing target if the user only asked for a conservative update.
 
-- 커밋 규칙을 정하기 전에 대상 저장소 문서와 기존 지침에 별도 규칙이 있는지 확인합니다.
-- 별도 커밋 규칙이 있다면 대상 `AGENTS.md`에 커밋 원칙을 쓰기 전에 사용자에게 `커밋 규칙은 대상 저장소 문서의 규칙을 따를까요, 아니면 agents-md의 기본 규칙을 따를까요?`라고 질문합니다.
-- 사용자가 대상 저장소 문서 규칙을 선택하면 해당 규칙을 구체적으로 반영하고, 사용자가 agents-md의 기본 규칙을 선택하면 `Feat`, `Docs`, `Refactor`, `Fix`, `Chore`, `Test` Prefix와 영문 Sentence Case 커밋 메시지를 반영합니다.
-- 대상 저장소의 실제 역할, 파일 구조, 명령어, 검증 기준을 구체적으로 적습니다.
-- 이 저장소의 `AGENTS.md`를 그대로 복사하지 말고 대상 저장소의 역할과 명령어에 맞게 구체화합니다.
-- 생성된 대상 저장소의 `AGENTS.md`에는 `agents-md` 저장소를 계속 참고하라는 문구나 링크를 남기지 않습니다.
+## Instruction priority
 
-대상 저장소의 `AGENTS.md`는 아래 섹션을 기본 후보로 삼습니다. 대상 저장소에 해당하지 않는 항목은 제거하고, 필요한 항목은 실제 파일명과 명령어로 구체화합니다.
+For this repository, apply instructions in this order.
 
-- 기본 응답 원칙
-- 저장소 역할
-- 작업 시작 체크
-- 커밋 원칙
-- 문서와 source of truth
-- 개발 기준
-- 검증 기준
-- 배포 또는 운영 반영 기준
-- 장애, 알림, 모니터링, 사용자 문의 처리 기준
-- 보안과 secret 관리
+1. Latest explicit user instruction
+2. This root `AGENTS.md`
+3. Relevant localized file under `agents/`, only for external target generation or update work
+4. Existing conventions in the files being edited
 
-### CLAUDE.md 링크
+For external target work, inspect the target's own instruction files and documentation before editing. Do not override target-specific instructions with generic `agents-md` text unless the user explicitly asks for that change.
 
-대상 저장소에 `CLAUDE.md`를 만들 때는 `AGENTS.md`를 가리키는 심볼릭 링크로 생성합니다.
+## Common working principles
 
-```sh
-ln -s AGENTS.md CLAUDE.md
-```
+- Put the conclusion first and separate unverified information clearly.
+- Do not use unnecessary praise, exclamations, or decorative phrasing.
+- Before answering or editing, read the relevant files and existing documentation.
+- Do not guess repository structure, APIs, environment variables, commands, document generation methods, or deployment procedures.
+- For non-trivial work, first make a short plan with likely files to change, expected behavior, and verification method.
+- If a request is ambiguous, choose the safest minimal interpretation and state that interpretation.
+- Make changes as small and localized as possible.
+- Preserve existing behavior, public APIs, and documentation source-of-truth relationships.
+- Do not perform broad structural changes or large refactors unless the user explicitly asks for them.
+- Do not change formatting that is unrelated to the request.
+- Treat already modified files as user or prior-work changes and do not revert them arbitrarily.
+- Do not write secrets, tokens, or credentials into the repository.
+- Do not modify production config, deployment settings, analytics keys, or operational access information without an explicit user request and confirmed context.
+- Do not claim commands, tests, deployments, or file states succeeded unless they were actually run or inspected.
+- Do not ignore failed verification. Separate the failure cause from whether it is related to the changes.
 
-이미 `CLAUDE.md`가 존재한다면 먼저 종류를 확인합니다.
+Do not insert content into commit messages, code comments, PR/issue bodies, documents, or config files unless the user explicitly requested it. In particular, do not add:
 
-- 이미 `AGENTS.md`를 가리키는 심볼릭 링크라면 유지합니다.
-- 일반 파일이거나 다른 대상을 가리키는 링크라면 임의로 덮어쓰지 말고 사용자에게 확인합니다.
+- trailers such as `Co-Authored-By` or `Signed-off-by`
+- agent, model, provider names, or provider email addresses
+- generation-tool labels such as "Generated with ..." or "Made by AI"
+- unrelated advertising, promotion, or external links
 
-#### Windows fallback
+Even if there seems to be a good reason to add such content, ask the user first and add it only after approval.
 
-Windows에서는 일반 사용자 권한으로 `ln -s`가 동작하지 않거나, Git for Windows가 symlink을 일반 파일로 체크아웃할 수 있습니다. 아래 순서로 fallback합니다.
+## Repository role
 
-1. 개발자 모드가 켜져 있거나 관리자 권한이 있다면 PowerShell에서 symlink을 만듭니다.
+`agents-md` manages instructions for creating and updating `AGENTS.md` files for personal projects.
 
-   ```powershell
-   New-Item -ItemType SymbolicLink -Path CLAUDE.md -Target AGENTS.md
-   ```
+- The root `AGENTS.md` is the source of truth for maintaining this repository and for routing to localized external-reference files.
+- `agents/AGENTS.en.md` is the English external-reference instruction file.
+- `agents/AGENTS.kr.md` is the Korean external-reference instruction file.
+- Localized files must contain only instructions for creating or updating target repositories' `AGENTS.md` files.
+- Keep `CLAUDE.md` as a symbolic link to the root `AGENTS.md`; do not duplicate it as a separate file.
+- When adding or changing a rule, decide whether it belongs in this root file, the localized external-reference files, or both.
 
-2. Git for Windows를 사용한다면 저장소에 `core.symlinks=true`가 설정되어 있는지 `git config core.symlinks`로 확인합니다. `false`라면 `git config core.symlinks true` 후 다시 체크아웃합니다.
-3. symlink을 끝내 사용할 수 없는 환경이라면 `CLAUDE.md`를 `AGENTS.md`의 일반 파일 사본으로 둡니다. 이 경우 두 파일이 어긋나지 않도록 다음을 대상 저장소의 `AGENTS.md`와 contributing 문서에 함께 명시합니다.
-   - `AGENTS.md`를 수정하면 같은 변경을 `CLAUDE.md`에도 반영합니다.
-   - 커밋 전에 `diff AGENTS.md CLAUDE.md` 결과가 비어 있는지 확인합니다.
+## Start-of-work checklist
 
-작성 후 대상 저장소에서 아래를 확인합니다.
-
-```sh
-test -f AGENTS.md
-test -L CLAUDE.md
-test "$(readlink CLAUDE.md)" = "AGENTS.md"
-git diff --check
-git status --short
-```
-
-### 별도 문서 참조
-
-대상 저장소에 세부 문서가 나뉘어 있다면 `AGENTS.md`에 모든 내용을 중복해서 옮기지 말고, 에이전트가 반드시 참고해야 할 문서와 읽는 순서를 명시합니다.
-
-아래 유형의 문서가 있는지 확인합니다.
-
-- 운영 적용 문서: 배포, 릴리스, 관리자 작업, 캐시 초기화, 운영 반영 후 확인 절차
-- 런타임 또는 UI 계약 문서: DOM selector, API contract, schema, route, event, data attribute처럼 코드가 의존하는 외부 계약
-- 스니펫 또는 플러그인 문서: 파일별 등록 위치, 실행 순서, hook priority, 필수 설정, 검증 명령
-- 장애 처리 기록: 알림 채널, triage 원칙, 과거 판단, 상태 표시, 사용자의 승인 없이는 수행하면 안 되는 조치
-- 문서 원본 관리: 생성 파일과 원본 파일, 수동 동기화가 필요한 파일, README 생성 규칙
-- 성능 진단 문서: 재현 가능한 측정 방법, 산출물 위치, 해석 시 주의할 flag나 환경
-- 보안 문서: secret 주입 위치, 공개 가능한 값과 비공개 값의 경계, 운영 접근 주의사항
-
-별도 문서를 발견하면 대상 저장소의 `AGENTS.md`에 다음처럼 요약합니다.
-
-```md
-## 주요 참고 문서
-
-- `docs/operations.md`: 배포와 운영 반영 절차를 확인합니다.
-- `docs/contracts.md`: 코드가 의존하는 외부 마크업/API/schema 계약을 확인합니다.
-- `docs/snippets.md`: 운영 스니펫의 등록 위치, 우선순위, 필수 설정을 확인합니다.
-- `docs/incident-notes.md`: 알림이나 장애 항목을 분류하기 전 기존 처리 이력을 확인합니다.
-```
-
-세부 문서에 이미 있는 표나 긴 운영 기록은 `AGENTS.md`에 그대로 복제하지 않습니다. 대신 어떤 작업에서 어느 문서를 먼저 읽어야 하는지, 문서 갱신이 필요한 조건이 무엇인지 적습니다.
-
-## 이 저장소 유지보수 지침
-
-이 섹션은 `agents-md` 저장소 자체를 수정할 때만 사용합니다. 기본 응답 및 작업 원칙은 [공통 원칙](#공통-원칙)을 따르고, 이 섹션에는 이 저장소 고유의 규칙만 둡니다.
-
-### 저장소 역할
-
-`agents-md`는 개인 프로젝트에서 사용할 `AGENTS.md` 생성 지침을 관리하는 저장소입니다.
-
-- 이 저장소의 `AGENTS.md`는 이 저장소 자체의 작업 지침이면서, 다른 저장소의 `AGENTS.md`를 생성하기 위한 기준입니다.
-- `CLAUDE.md`는 별도 파일로 복제하지 않고 `AGENTS.md`를 가리키는 심볼릭 링크로 유지합니다.
-
-### 작업 시작 체크
-
-작업 시작 시 다음을 먼저 확인합니다.
+At the start of work on this repository, check the following first.
 
 - `git status --short`
-- 변경 대상 파일의 기존 문체와 구조
-- `CLAUDE.md`가 `AGENTS.md`를 가리키는 심볼릭 링크인지
-- 작업에 참고해야 할 별도 문서가 있는지
+- existing tone and structure of the files to change
+- whether `CLAUDE.md` is a symbolic link to the root `AGENTS.md`
+- whether localized external-reference files must be updated together
+- whether any separate document must be referenced
 
-### 원본 관리
+## Source management
 
-- 에이전트 작업 지침의 source of truth는 `AGENTS.md`입니다.
-- README의 source of truth는 `resources/README.preset.md`입니다.
-- `README.md`는 직접 수정으로 끝내지 않고 `resources/README.preset.md`를 수정한 뒤 `./scripts/readme_update.sh`를 실행합니다.
-- README 히어로 SVG의 source of truth는 `resources/readme-hero.preset.svg`입니다.
-- `resources/readme-hero.svg`는 생성 결과물이므로 직접 수정으로 끝내지 않고 `./scripts/readme_update.sh`로 재생성합니다.
-- `AGENTS.md` 생성을 위한 별도 프리셋 파일을 만들지 않습니다.
-- 범용 개인 프로젝트 기준으로 작성하고, 특정 회사, 고객사, 비공개 제품명, 운영 채널, 내부 URL을 넣지 않습니다.
+- The source of truth for this repository's active instructions is the root `AGENTS.md`.
+- The source of truth for English external-reference instructions is `agents/AGENTS.en.md`.
+- The source of truth for Korean external-reference instructions is `agents/AGENTS.kr.md`.
+- If a language-independent external-reference rule changes, reflect the same meaning in every localized external-reference file or state which files were not updated in the final response.
+- If an internal maintenance rule changes, keep it in this root file and do not duplicate it into localized external-reference files unless it also affects target generation behavior.
+- The source of truth for README is `resources/README.preset.md`.
+- Do not finish by editing `README.md` directly; edit `resources/README.preset.md` and run `./scripts/readme_update.sh`.
+- The source of truth for the README hero SVG is `resources/readme-hero.preset.svg`.
+- `resources/readme-hero.svg` is generated, so do not finish by editing it directly; regenerate it with `./scripts/readme_update.sh`.
+- `agents/AGENTS.<language>.md` files are localized reference instructions, not presets to copy verbatim into target `AGENTS.md` files.
+- Do not create a separate preset file for generating target `AGENTS.md` files.
+- Write for general personal projects and do not include specific company names, clients, private product names, operational channels, or internal URLs.
 
-### 문서 작성 기준
+## Documentation standards
 
-- 문서는 한국어를 기본으로 작성합니다.
-- 절 제목은 짧고 명확하게 둡니다.
-- 저장소별로 달라지는 내용과 범용 원칙을 섞지 않습니다.
-- 생성 파일은 직접 수정으로 끝내지 않고 원본 파일을 수정한 뒤 생성 명령을 실행합니다.
-- 문서 원본과 코드 내 embedded text가 수동 동기화 관계라면 둘 다 갱신합니다.
+- Write the root `AGENTS.md` in English.
+- Write `agents/AGENTS.en.md` in English.
+- Write `agents/AGENTS.kr.md` in Korean.
+- Keep section titles short and clear.
+- Do not mix repository-specific maintenance rules into localized external-reference files.
+- Do not phrase target-generation rules in a way that requires copying this repository's structure into every target.
+- Do not finish by editing generated files directly; edit the source file and run the generation command when a source/generation relationship exists.
+- If document sources and embedded text in code must be synchronized manually, update both.
+- When adding a new rule, make clear which failure case it is meant to prevent.
 
-### 커밋 원칙
+## Updating existing target AGENTS.md files from this repository
 
-커밋은 사용자가 요청한 경우에만 합니다.
+When the user asks to update an already-created target `AGENTS.md` based on this repository or this page, treat that as external-reference update work.
 
-커밋 메시지는 아래 Prefix를 사용하고, 영문 Sentence Case로 작성합니다.
+- Use the appropriate localized reference file under `agents/`.
+- Read the target's existing `AGENTS.md`, nested instruction files, `CLAUDE.md`, README, docs, and contributing documents first.
+- Preserve target-specific roles, commands, paths, verification procedures, and prohibitions that are confirmed in the existing target.
+- Do not rewrite the target from scratch unless the user explicitly asks for a full rewrite.
+- Do not impose this repository's root/localized file structure on the target unless the user asks to introduce language routing or the target already uses that structure.
+- If existing target instructions conflict with this repository's guidance, report the conflict and ask before removing target-specific rules.
 
-- 기능 추가: `Feat: ...`
-- 문서 갱신: `Docs: ...`
-- 이름/구조 정리: `Refactor: ...`
-- 버그 수정: `Fix: ...`
-- 설정 변경: `Chore: ...`
-- 테스트 추가/수정: `Test: ...`
+## Commit principles
 
-사용자가 명시적으로 다른 규칙을 요청하지 않는 한 최근 커밋 스타일보다 위 규칙을 우선합니다.
+Commit only when the user asks for it.
 
-한 커밋에는 하나의 목적만 담습니다. 예를 들어 아래는 분리합니다.
+Use the following prefixes and English Sentence Case in commit messages.
 
-- 기능 코드 변경
-- 문서 생성본 갱신
-- 설정 파일 변경
-- 의존성 lockfile 갱신
-- 운영 대응 기록 갱신
+- Feature addition: `Feat: ...`
+- Documentation update: `Docs: ...`
+- Naming or structure cleanup: `Refactor: ...`
+- Bug fix: `Fix: ...`
+- Configuration change: `Chore: ...`
+- Test addition or update: `Test: ...`
 
-사용자가 커밋을 요청했더라도 unrelated change는 함께 stage하지 않습니다. 같은 파일에 사용자 변경과 작업 변경이 섞여 있으면 diff를 확인하고 필요한 hunks만 선별합니다.
+Unless the user explicitly requests a different rule, these rules take priority over recent commit style.
 
-### 검증 기준
+Keep one purpose per commit. For example, separate the following.
 
-변경 후 가능한 범위에서 아래를 실행합니다.
+- feature code changes
+- generated documentation updates
+- config file changes
+- dependency lockfile updates
+- operational response record updates
 
-- README 변경: `./scripts/readme_update.sh`
-- README 히어로 변경: `./scripts/readme_update.sh`
+Even if the user asks for a commit, do not stage unrelated changes. If user changes and task changes are mixed in the same file, inspect the diff and stage only the required hunks.
+
+## Verification criteria
+
+After changes, run the following within the possible scope.
+
+- README change: `./scripts/readme_update.sh`
+- README hero change: `./scripts/readme_update.sh`
 - `git diff --check`
 - `git status --short`
-- 심볼릭 링크 확인이 필요하면 `ls -l CLAUDE.md`
+- If symlink verification is needed: `ls -l CLAUDE.md`
+- If root/localized instruction separation changed: `test -f AGENTS.md`, `test -f agents/AGENTS.en.md`, `test -f agents/AGENTS.kr.md`
 
-검증할 수 없는 항목은 성공처럼 말하지 말고 이유를 보고합니다.
+Do not report unverifiable items as successful. Report why they could not be verified.
+
+## Final response format
+
+After finishing work, always include the following.
+
+1. Summary of changes
+2. Files changed
+3. Verification commands run and results
+4. Remaining risks, limitations, or follow-up
+
+If no code changed or only documentation changed, state that explicitly.
